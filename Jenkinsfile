@@ -10,6 +10,8 @@ pipeline {
             steps {
                 sh 'echo Print Maven Version'
                 sh 'mvn -version'
+                sh 'echo Java Version'
+                sh 'java -version'
             }
         }
         stage('Build'){
