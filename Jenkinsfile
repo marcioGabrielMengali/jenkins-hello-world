@@ -2,11 +2,11 @@ pipeline {
     agent any
 
     tools {
-        maven "M398"
-        jdk "JDK17"
+        maven 'M398'
+        jdk 'JDK17'
     }
 
-    stages{
+    stages {
         stage('Echo Version') {
             steps {
                 sh 'echo Print Maven Version'
@@ -15,20 +15,22 @@ pipeline {
                 sh 'java -version'
             }
         }
-        stage('Build'){
+        stage('Build') {
             steps {
                 git branch: 'main', url: 'https://github.com/marcioGabrielMengali/jenkins-hello-world.git'
-                sh "mvn clean package -DskipTests=true"
+                sh 'mvn clean package -DskipTests=true'
             }
         }
-        stage('Unit Test'){
+        stage('Unit Test') {
             steps {
-                for(int i = 0; i < 60; i++){
-                    echo "${i + 1}"
-                    sleep 1
+                script {
+                    for (int i = 0; i < 60; i++) {
+                        echo "${i + 1}"
+                        sleep 1
+                    }
                 }
-                
-                sh "mvn test"
+
+                sh 'mvn test'
             }
         }
     }
