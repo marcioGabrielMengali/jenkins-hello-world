@@ -7,14 +7,6 @@ pipeline {
     }
 
     stages {
-        stage('Echo Version') {
-            steps {
-                sh 'echo Print Maven Version'
-                sh 'mvn -version'
-                sh 'echo Java Version'
-                sh 'java -version'
-            }
-        }
         stage('Build') {
             steps {
                 git branch: 'main', url: 'https://github.com/marcioGabrielMengali/jenkins-hello-world.git'
@@ -22,10 +14,31 @@ pipeline {
                 archiveArtifacts artifacts: 'target/hello-demo-*.jar', fingerprint: true
             }
         }
-        stage('Unit Test') {
+        stage('Test') {
             steps {
                 sh 'mvn test'
                 junit testResults: 'target/surefire-reports/TEST-*.xml', keepProperties: true, keepTestNames: true
+            }
+        }
+
+        stage('Containerization') {
+            steps {
+                sh 'echo Docker Build Image....'
+                sh 'echo Docker Tag Image....'
+                sh 'echo Docker Push Image....'
+            }
+        }
+
+        stage('Kubernetes Deployment') {
+            steps {
+                sh 'echo Deploy to Kubernetes usig ArgoCD'
+            }
+        }
+
+        stage('Integration Test') {
+            steps {
+                sh 'sleep 10s'
+                sh 'echo Testing using cURL commands....'
             }
         }
     }
